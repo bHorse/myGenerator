@@ -1,8 +1,8 @@
 package ${package}.${moduleName}.dao;
 
 import ${package}.${moduleName}.entity.${className}Entity;
-import com.baomidou.mybatisplus.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 /**
  * ${comments}
@@ -11,7 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @email ${email}
  * @date ${datetime}
  */
-@Mapper
-public interface ${className}Dao extends BaseMapper<${className}Entity> {
-	
+public interface ${className}Dao extends JpaRepository<${className}Entity,Long>, JpaSpecificationExecutor<${className}Entity> {
+
 }

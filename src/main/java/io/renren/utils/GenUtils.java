@@ -32,12 +32,12 @@ public class GenUtils {
         List<String> templates = new ArrayList<String>();
         templates.add("template/Entity.java.vm");
         templates.add("template/Dao.java.vm");
-        templates.add("template/Dao.xml.vm");
+//        templates.add("template/Dao.xml.vm");
         templates.add("template/Service.java.vm");
-        templates.add("template/ServiceImpl.java.vm");
+//        templates.add("template/ServiceImpl.java.vm");
         templates.add("template/Controller.java.vm");
         templates.add("template/menu.sql.vm");
-
+        templates.add("template/Vo.java.vm");
         templates.add("template/index.vue.vm");
         templates.add("template/add-or-update.vue.vm");
 
@@ -183,6 +183,9 @@ public class GenUtils {
 
         if (template.contains("Dao.java.vm" )) {
             return packagePath + "dao" + File.separator + className + "Dao.java";
+        }
+        if (template.contains("Vo.java.vm" )) {
+            return packagePath + "vo" + File.separator + className + "Vo.java";
         }
 
         if (template.contains("Service.java.vm" )) {

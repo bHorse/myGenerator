@@ -1,14 +1,14 @@
 package ${package}.${moduleName}.entity;
 
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableName;
+
 
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
 #end
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-
+import ${package}.${moduleName}.vo.${className}Vo;
 /**
  * ${comments}
  * 
@@ -16,7 +16,8 @@ import java.util.Date;
  * @email ${email}
  * @date ${datetime}
  */
-@TableName("${tableName}")
+@Entity
+@Table(name = "${tableName}")
 public class ${className}Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -24,11 +25,8 @@ public class ${className}Entity implements Serializable {
 	/**
 	 * $column.comments
 	 */
-	#if($column.columnName == $pk.columnName)
-@TableId
+	private $column.attrType $column.attrname;
 	#end
-private $column.attrType $column.attrname;
-#end
 
 #foreach ($column in $columns)
 	/**
@@ -40,8 +38,29 @@ private $column.attrType $column.attrname;
 	/**
 	 * 获取：${column.comments}
 	 */
+	#if($column.columnName == $pk.columnName)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	#end
 	public $column.attrType get${column.attrName}() {
 		return $column.attrname;
 	}
+
 #end
+
+    public ${className}Vo toVoList(){
+		${className}Vo ${className}vo=new ${className}Vo();
+		#foreach ($column in $columns)
+		${className}Vo.set${column.attrName}(this.get${column.attrName}());
+		#end
+        return ${className}vo;
+    }
+
+    public ${className}Vo toVoDetail(){
+			${className}Vo ${className}vo=new ${className}Vo();
+		#foreach ($column in $columns)
+				${className}Vo.set${column.attrName}(this.get${column.attrName}());
+		#end
+        return ${className}vo;
+    }
 }
