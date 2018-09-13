@@ -8,10 +8,12 @@ import java.math.BigDecimal;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+
 import ${package}.${moduleName}.vo.${className}Vo;
+
 /**
  * ${comments}
- * 
+ *
  * @author ${author}
  * @email ${email}
  * @date ${datetime}
@@ -19,48 +21,66 @@ import ${package}.${moduleName}.vo.${className}Vo;
 @Entity
 @Table(name = "${tableName}")
 public class ${className}Entity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-#foreach ($column in $columns)
-	/**
-	 * $column.comments
-	 */
-	private $column.attrType $column.attrname;
-	#end
+    #foreach ($column in $columns)
+    /**
+     * $column.comments
+     */
+    private $column.attrType $column.attrname;
+    #end
 
-#foreach ($column in $columns)
-	/**
-	 * 设置：${column.comments}
-	 */
-	public void set${column.attrName}($column.attrType $column.attrname) {
-		this.$column.attrname = $column.attrname;
-	}
-	/**
-	 * 获取：${column.comments}
-	 */
-	#if($column.columnName == $pk.columnName)
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	#end
-	public $column.attrType get${column.attrName}() {
-		return $column.attrname;
-	}
-
-#end
-
-    public ${className}Vo toVoList(){
-		${className}Vo ${className}vo=new ${className}Vo();
-		#foreach ($column in $columns)
-		${className}Vo.set${column.attrName}(this.get${column.attrName}());
-		#end
-        return ${className}vo;
+    #foreach ($column in $columns)
+    /**
+     * 设置：${column.comments}
+     */
+    public void set${column.attrName}($column.attrType $column.attrname) {
+        this.$column.attrname = $column.attrname;
     }
 
-    public ${className}Vo toVoDetail(){
-			${className}Vo ${className}vo=new ${className}Vo();
-		#foreach ($column in $columns)
-				${className}Vo.set${column.attrName}(this.get${column.attrName}());
-		#end
-        return ${className}vo;
+    /**
+     * 获取：${column.comments}
+     */
+    #if($column.columnName == $pk.columnName)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    #end
+    public $column.attrType get${column.attrName}() {
+        return $column.attrname;
+    }
+
+    #end
+
+    public ${className}Vo toVoList() {
+        ${className}Vo ${className}Vo = new ${className}Vo();
+        #foreach ($column in $columns)
+        ${className}Vo.set${column.attrName}(this.get${column.attrName}());
+        #end
+        return ${className}Vo;
+    }
+
+    public ${className}Vo toVoDetail() {
+        ${className}Vo ${className}Vo = new ${className}Vo();
+        #foreach ($column in $columns)
+        ${className}Vo.set${column.attrName}(this.get${column.attrName}());
+        #end
+        return ${className}Vo;
+    }
+
+    public static  ${className}Entity of(${className}Vo ${className}Vo){
+        ${className}Entity ${className}Entity = new ${className}Entity();
+        #foreach ($column in $columns)
+        if (${className}Vo.get${column.attrName}()!=null)
+            ${className}Entity.set${column.attrName}(${className}Vo.get${column.attrName}());
+        #end
+
+        return ${className}Entity;
+    }
+
+    public void update(${className}Vo ${className}Vo){
+        #foreach ($column in $columns)
+        if (${className}Vo.get${column.attrName}()!=null)
+            this.set${column.attrName}(${className}Vo.get${column.attrName}());
+        #end
     }
 }
