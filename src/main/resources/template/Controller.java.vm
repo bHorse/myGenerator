@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.vo.${className}Vo;
 import ${package}.${moduleName}.service.${className}Service;
 import ${mainPath}.common.mvc.model.ReturnJson;
 
@@ -53,8 +54,9 @@ public class ${className}Controller {
      */
     @RequestMapping("/save")
     @RequiresPermissions("${moduleName}:${pathName}:save")
-    public ReturnJson<${className}Vo> save(@RequestBody ${className}Entity ${classname}) {
-        return ${classname}Service.insert(${classname});
+    public ReturnJson<${className}Vo> save(@RequestBody ${className}Vo ${classname}Vo) {
+        ${classname}Service.save(${classname}Vo);
+        return ReturnJson.success();
     }
 
     /**
@@ -62,8 +64,9 @@ public class ${className}Controller {
      */
     @RequestMapping("/update")
     @RequiresPermissions("${moduleName}:${pathName}:update")
-    public ReturnJson<${className}Vo> update(@RequestBody ${className}Entity ${classname}) {
-        return ${classname}Service.updateById(${classname});
+    public ReturnJson<${className}Vo> update(@RequestBody ${className}Vo ${classname}Vo) {
+        ${classname}Service.updateById(${classname}Vo);
+        return ReturnJson.success();
     }
 
     /**
@@ -72,7 +75,8 @@ public class ${className}Controller {
     @RequestMapping("/delete")
     @RequiresPermissions("${moduleName}:${pathName}:delete")
     public ReturnJson<${className}Vo> delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s) {
-        return ${classname}Service.deleteBatchIds(Arrays.asList(${pk.attrname}s));
+        ${classname}Service.deleteBatch(${pk.attrname}s);
+        return ReturnJson.success();
     }
 
 }

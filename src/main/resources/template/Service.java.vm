@@ -10,8 +10,8 @@ import ${package}.${moduleName}.entity.${className}Entity;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import ${package}.${moduleName}.entity.${className}Entity;
 import ${package}.${moduleName}.dao.${className}Dao;
+import ${package}.${moduleName}.vo.${className}Vo;
 
 
 
@@ -21,12 +21,12 @@ public class ${className}Service {
 
     private ServiceHelper<${className}Entity> serviceHelper;
     @Autowired
-    private ${className}Dao ${className}Dao;
+    private ${className}Dao ${classname}Dao;
 
 
     @PostConstruct
     public void init(){
-        serviceHelper=new ServiceHelperImpl<>(${className}Dao, ${className}Entity.class);
+        serviceHelper=new ServiceHelperImpl<>(${classname}Dao, ${className}Entity.class);
     }
 
 
@@ -36,14 +36,22 @@ public class ${className}Service {
 
 
     public void save(Map<String,Object> params) {
-        ${className}Entity ${className}Entity = serviceHelper.save(params);
+        ${className}Entity ${classname}Entity = serviceHelper.save(params);
     }
 
+    public void save(${className}Vo ${classname}Vo ) {
+        ${className}Entity ${classname}Entity = ${className}Entity.of(${classname}Vo);
+        ${classname}Dao.save(${classname}Entity);
+    }
 
     public void update(Map<String,Object> params) {
-        ${className}Entity ${className}Entity = serviceHelper.update(params);
+        ${className}Entity ${classname}Entity = serviceHelper.update(params);
     }
 
+    public void updateById(${className}Vo ${classname}Vo ) {
+        ${className}Entity ${classname}Entity=${classname}Dao.getOne(${classname}Vo.getId());
+        ${classname}Entity.update(${classname}Vo);
+    }
 
     @Transactional(rollbackFor = Exception.class)
     public void deleteBatch(Long[] ids) {
@@ -52,17 +60,8 @@ public class ${className}Service {
     }
 
 
-    public int updateBatch(Long[] ids, int status){
-
-        return ${className}Dao.updateBatch(ids,status);
-    }
-
-
-
-
-
     public ReturnJson<${className}Vo> findById(Long id) {
-        return ReturnJson.success(${className}Dao.findById(id).get().toVoDetail());
+        return ReturnJson.success(${classname}Dao.findById(id).get().toVoDetail());
     }
 
 }
